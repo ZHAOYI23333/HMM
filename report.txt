@@ -1,0 +1,96 @@
+# CSE 5522 Lab3 HMM
+# Author: Yi Zhao
+# Prof: Eric Fosler-Lussier
+# Ohio State University
+
+Problem 1:
+    $ python viterbi.py
+
+    Simply run the code and the result of gold sequence of test file will print out.
+    E.g., 
+        [Running] python -u "/Users/zhaoyi23333/Desktop/5522Lab3/viterbi.py"
+        ['H', 'H', 'H', 'H', 'H']
+        ['H', 'H', 'H', 'H']
+        ['C', 'C', 'C', 'C', 'C']
+        ['C', 'C', 'C']
+        ['C', 'C', 'C', 'C', 'C']
+        ['C', 'C', 'C', 'C']
+        ['H', 'H', 'H']
+        ['H', 'H', 'C', 'C']
+        ['C', 'H', 'H', 'H', 'H']
+        ['C', 'C', 'C']
+
+Problem 2:
+    $ python likelyhood.py
+
+    Run the code and the converge point and gold sequence will print out. 
+    The result seems the same as the viterbi sequence. 
+    The convergence time would differ for each time you run.
+    E.g., 
+        [Running] python -u "/Users/zhaoyi23333/Desktop/5522Lab3/likelyhood.py"
+        ('Converge at: ', 10)
+        ['H', 'H', 'H', 'H', 'H']
+        ('Converge at: ', 11)
+        ['H', 'H', 'H', 'H']
+        ('Converge at: ', 13)
+        ['C', 'C', 'C', 'C', 'C']
+        ('Converge at: ', 11)
+        ['C', 'C', 'C']
+        ('Converge at: ', 23)
+        ['C', 'C', 'C', 'C', 'C']
+        ('Converge at: ', 17)
+        ['C', 'C', 'C', 'C']
+        ('Converge at: ', 11)
+        ['H', 'H', 'H']
+        ('Converge at: ', 302)
+        ['H', 'H', 'C', 'C']
+        ('Converge at: ', 183)
+        ['C', 'H', 'H', 'H', 'H']
+        ('Converge at: ', 11)
+        ['C', 'C', 'C']
+
+Problem 3:
+    $ python HMM.py
+    
+    The updated table of 1st iteration of given (C,H) dataset is:
+
+    ('Transition: ', array([[0.87574097, 0.09251703, 0.12905787],
+    [0.1089602 , 0.86515797, 0.87094213],
+    [0.01529883, 0.042325  , 0.        ]]))
+    ('Emission', array([[0.67650238, 0.0583723 ],
+    [0.21881944, 0.42508654],
+    [0.10467818, 0.51654116]]))
+
+    The updated table of 10th iteration of
+    ('Transition: ', array([[9.33753942e-01, 7.18550267e-02, 5.08924289e-15],
+    [6.62460581e-02, 8.64973194e-01, 1.00000000e+00],
+    [1.03155599e-15, 6.31717793e-02, 0.00000000e+00]]))
+    ('Emission', array([[6.40581496e-01, 7.08627843e-05],
+    [1.48077686e-01, 5.34274338e-01],
+    [2.11340817e-01, 4.65654799e-01]]))
+
+    These value are all exactly the same as provided excel table. 
+
+    To try different initial transition/emission table, please change them in "__main__". 
+
+    My Observation:
+    I initialized the transmission table and emission table with: 
+        transition = [[0.25,0.25,0.25,0.3],[0.25,0.25,0.25,0.3],[0.25,0.25,0.25,0.4],[0.25,0.25,0.25,0]]
+        emission = [[0.3,0.3,0.3],[0.3,0.3,0.3],[0.4,0.4,0.4]]
+
+    And finally the table seems to converge to (After 100 iterations):
+    [[3.15591379e-001 3.15591379e-001 3.63661653e-001 1.77835841e-255]
+    [3.15591379e-001 3.15591379e-001 3.63661653e-001 1.77835841e-255]
+    [3.68817242e-001 3.68817242e-001 1.82614797e-001 1.00000000e+000]
+    [1.84901994e-225 1.84901994e-225 9.00618964e-002 0.00000000e+000]]
+
+    [[4.97629737e-01 4.97629737e-01 9.33383017e-03]
+    [7.44946631e-06 7.44946631e-06 9.90666170e-01]
+    [5.02362814e-01 5.02362814e-01 2.09578977e-15]]
+
+    The initialization of the table seems as important as I expected, since I changed the tranmission probability
+    of P(H|W), P(H|C), and finally I get the totally different transition table. The output sequence is highly depending
+    on what the initial transition and emission is. If you set equal values in these tables, you are most likely get 
+    2 tags in sequence and the left one tag has nearly zero probability in transition and emission, which are least likely
+    to show in the sequence. The limit of this lab is we only have one observation sequence, which means the convergence are depending on our 
+    initial value of the table. 
